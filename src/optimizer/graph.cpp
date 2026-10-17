@@ -63,7 +63,7 @@ for(int i=0;i<V;i++){
     }
 // CHANGED: Start from the user's selected RAM
     dist[source]=0;
-// Dijkstra's algorithm - same structure as your code
+// Dijkstra's algorithm 
     for(int count=0;count<V;count++){
         int u=-1;
 // Find the unvisited vertex with the smallest distance
