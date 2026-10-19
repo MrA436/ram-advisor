@@ -1,4 +1,6 @@
+
 #include "DecisionNode.h"
+
 DecisionNode::DecisionNode(conditionType condition, float Threshold) //The first is type, second DecisionNode is the constructor's name.
 {
     // this->condition means: The condition belonging to this particular object.
@@ -10,18 +12,21 @@ DecisionNode::DecisionNode(conditionType condition, float Threshold) //The first
     no = nullptr;
 
     // there isn't a final answer yet.
-    result = NO_RECOMMENDATION;// This isn't a leaf/result node
+    result = INSUFFICIENT_DATA;// This isn't a leaf/result node
+    isLeaf = false;
 }
 
 
 // This is for a leaf node.
-DecisionNode::DecisionNode(Recommendation result)
+DecisionNode::DecisionNode(RiskLevel result)    
 {
     this -> condition = avgUsage;
     this -> Threshold = 0;
 
+    // yes and no begin as nullptr, meaning no children have been attached yet.
     yes = nullptr;
     no = nullptr;
 
     this -> result = result;
+    isLeaf = true;
 }

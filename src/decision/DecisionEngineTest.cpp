@@ -1,14 +1,16 @@
+
 #include <iostream>
 #include "DecisionEngine.h"
 
-const char* recommendationName(Recommendation result)
+const char* riskName(RiskLevel risk)
 {
-    switch (result)
+    switch (risk)
     {
-        case LIGHT: return "LIGHT";
-        case MEDIUM: return "MEDIUM";
-        case HEAVY: return "HEAVY";
-        default: return "NO_RECOMMENDATION";
+        case LOW_RISK: return "LOW_RISK";
+        case MODERATE_RISK: return "MODERATE_RISK";
+        case HIGH_RISK: return "HIGH_RISK";
+        case INSUFFICIENT_DATA: return "INSUFFICIENT_DATA";
+        default: return "UNKNOWN";
     }
 }
 
@@ -16,41 +18,41 @@ int main()
 {
     DecisionEngine engine;
 
-    // Prototype test data: installed RAM, average usage, peak usage
     SystemData tests[] =
     {
-        {8,  40, 50},  // Expected: LIGHT
-        {8,  70, 50},  // Expected: MEDIUM
-        {8,  85, 95},  // Expected: HEAVY
-        {8,  85, 70},  // Expected: MEDIUM
-        {16, 80, 95},  // Expected: MEDIUM
-        {16, 60, 99}   // Expected: LIGHT
+        {8,  40, 50, true,  false, false}, // LOW
+        {8,  70, 50, true,  false, false}, // MODERATE
+        {8,  85, 95, true,  false, false}, // HIGH
+        {8,  85, 70, true,  false, false}, // MODERATE
+        {8,  40, 50, false, false, false}, // INSUFFICIENT
+        {8,  40, 50, true,  true,  false}, // MODERATE
+        {8,  40, 50, true,  true,  true}   // HIGH
     };
 
-    Recommendation expected[] =
+    RiskLevel expected[] =
     {
-        LIGHT,
-        MEDIUM,
-        HEAVY,
-        MEDIUM,
-        MEDIUM,
-        LIGHT
+        LOW_RISK,
+        MODERATE_RISK,
+        HIGH_RISK,
+        MODERATE_RISK,
+        INSUFFICIENT_DATA,
+        MODERATE_RISK,
+        HIGH_RISK
     };
 
-    int totalTests = sizeof(tests) / sizeof(tests[0]);
+    int total = sizeof(tests) / sizeof(tests[0]);
     int passed = 0;
 
-    for (int i = 0; i < totalTests; i++)
+    for (int i = 0; i < total; i++)
     {
-        Recommendation actual = engine.evaluate(tests[i]);
+        RiskAssessment result = engine.evaluate(tests[i]);
 
         std::cout << "Test " << i + 1
-                  << " | Average: " << tests[i].averageUsage << "%"
-                  << " | Peak: " << tests[i].peakUsage << "%"
-                  << " | Expected: " << recommendationName(expected[i])
-                  << " | Actual: " << recommendationName(actual);
+                  << " | Expected: " << riskName(expected[i])
+                  << " | Actual: " << riskName(result.risk)
+                  << " | Explanation: " << result.explanation;
 
-        if (actual == expected[i])
+        if (result.risk == expected[i])
         {
             std::cout << " | PASS\n";
             passed++;
@@ -62,7 +64,7 @@ int main()
     }
 
     std::cout << "\nResults: " << passed
-              << "/" << totalTests << " tests passed.\n";
+              << "/" << total << " tests passed.\n";
 
-    return (passed == totalTests) ? 0 : 1;
+    return (passed == total) ? 0 : 1;
 }

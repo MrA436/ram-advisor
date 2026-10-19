@@ -1,0 +1,38 @@
+
+# Compiled executables
+*.exe
+*.out
+*.o
+*.obj
+
+# Build output directories
+build/
+cmake-build-*/
+
+# Temporary test outputs
+decision_test
+decision_test.exe
+
+# IDE settings
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary and backup files
+*.tmp
+*.temp
+*.bak
+*~
+
+# Debugging output and logs
+*.log
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile

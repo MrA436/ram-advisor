@@ -6,11 +6,12 @@ enum conditionType
     peakUsage
 };
 
-enum Recommendation {
-    LIGHT,
-    MEDIUM,
-    HEAVY,
-    NO_RECOMMENDATION
+enum RiskLevel
+{
+    LOW_RISK,
+    MODERATE_RISK,
+    HIGH_RISK,
+    INSUFFICIENT_DATA
 };
 
 struct DecisionNode
@@ -21,10 +22,9 @@ struct DecisionNode
     DecisionNode* yes;
     DecisionNode* no;
 
-    Recommendation result;
+    RiskLevel result;
+    bool isLeaf;
 
-    DecisionNode(conditionType condition,float Threshold);
-    DecisionNode(Recommendation result);
+    DecisionNode(conditionType condition, float Threshold);
+    DecisionNode(RiskLevel result);
 };
-
-
